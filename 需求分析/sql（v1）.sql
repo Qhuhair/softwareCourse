@@ -14,8 +14,8 @@ CREATE TABLE superManager (
     CreateTime DATE NOT NULL,
     UpdateTime DATE NOT NULL,
     Gender VARCHAR(10),
-    ManagerName VARCHAR(50),
-    ManagerContactInfo VARCHAR(20),
+    superManagerName VARCHAR(50),
+    superManagerContactInfo VARCHAR(20),
     PWD longtext
 );
 
@@ -139,6 +139,26 @@ CREATE TABLE DeliveryRecord (
     FOREIGN KEY (FromWarehouseID) REFERENCES Warehouse(WarehouseID),
 	FOREIGN KEY (OrderNumber) REFERENCES Orders(OrderNumber)
 );
+
+#调拨记录表
+DROP table if exists TransferRecord;
+CREATE TABLE TransferRecord (
+    TransferID INT PRIMARY KEY AUTO_INCREMENT,
+	OrderNumber INT,
+    GoodsID INT,
+    Quantity INT,
+    TransferTime DATE,
+    ManagerName VARCHAR(50),
+    ManagerContactInfo VARCHAR(20),
+    FromWarehouseID INT,
+    ToWarehouseID INT,
+    Reason VARCHAR(100),
+    FOREIGN KEY (GoodsID) REFERENCES Goods(GoodsID),
+    FOREIGN KEY (FromWarehouseID) REFERENCES Warehouse(WarehouseID),
+    FOREIGN KEY (ToWarehouseID) REFERENCES Warehouse(WarehouseID),
+	FOREIGN KEY (OrderNumber) REFERENCES Orders(OrderNumber)
+);
+
 #负责人仓库表
 DROP table if exists ManagerWarehouse;
 CREATE TABLE ManagerWarehouse (
