@@ -141,24 +141,30 @@ CREATE TABLE DeliveryRecord (
 );
 
 #调拨记录表
+-- 调拨执行过程：先生成出入库订单，再生成调拨记录，查询时根据两个订单分别查询出入库情况
 DROP table if exists TransferRecord;
 CREATE TABLE TransferRecord (
     TransferID INT PRIMARY KEY AUTO_INCREMENT,
-	OrderNumber INT,
-    GoodsID INT,
-    Quantity INT,
-    TransferTime DATE,
-    ManagerName VARCHAR(50),
-    ManagerContactInfo VARCHAR(20),
-    FromWarehouseID INT,
-    ToWarehouseID INT,
-    Reason VARCHAR(100),
-    FOREIGN KEY (GoodsID) REFERENCES Goods(GoodsID),
-    FOREIGN KEY (FromWarehouseID) REFERENCES Warehouse(WarehouseID),
-    FOREIGN KEY (ToWarehouseID) REFERENCES Warehouse(WarehouseID),
-	FOREIGN KEY (OrderNumber) REFERENCES Orders(OrderNumber)
+	FromOrderNumber INT, -- 出库记录ID
+    ToOrderNumber INT, -- 入库记录ID
+    SuperManagerID INT, -- 超级管理员ID
+	CreateTime DATE NOT NULL,
+    UpdateTime DATE NOT NULL,
+    FOREIGN KEY (FromOrderNumber) REFERENCES Orders(OrderNumber),
+    FOREIGN KEY (ToOrderNumber) REFERENCES Orders(OrderNumber),
+    FOREIGN KEY (SuperManagerID) REFERENCES superManager(SuperManagerID)
 );
-
+--     GoodsID INT,
+--     Quantity INT,
+--     TransferTime DATE,
+--     ManagerName VARCHAR(50),
+--     ManagerContactInfo VARCHAR(20),
+--     FromWarehouseID INT,
+--     ToWarehouseID INT,
+--     Reason VARCHAR(100),
+--     FOREIGN KEY (GoodsID) REFERENCES Goods(GoodsID),
+--     FOREIGN KEY (FromWarehouseID) REFERENCES Warehouse(WarehouseID),
+--     FOREIGN KEY (ToWarehouseID) REFERENCES Warehouse(WarehouseID),
 #负责人仓库表
 DROP table if exists ManagerWarehouse;
 CREATE TABLE ManagerWarehouse (
