@@ -101,7 +101,6 @@ DROP table if exists InventoryRecord;
 CREATE TABLE InventoryRecord (
     InventoryID INT PRIMARY KEY AUTO_INCREMENT,
     OrderNumber INT,
---     GoodsID INT,
     Quantity INT,
     InventoryTime DATE,
     ManagerName VARCHAR(50),
@@ -113,10 +112,12 @@ CREATE TABLE InventoryRecord (
     FromWarehouseID VARCHAR(50),
     ToWarehouseID INT,
     Reason VARCHAR(100),
+--     GoodsID INT,
 --     FOREIGN KEY (GoodsID) REFERENCES Goods(GoodsID),
     FOREIGN KEY (ToWarehouseID) REFERENCES Warehouse(WarehouseID),
 	FOREIGN KEY (OrderNumber) REFERENCES Orders(OrderNumber)
 );
+
 
 #出库记录表
 DROP table if exists DeliveryRecord;
